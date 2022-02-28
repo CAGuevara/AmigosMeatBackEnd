@@ -20,7 +20,7 @@ public class Product {
 	@Column
 	private double cost;
 	@Column
-	private int qtyAvailable;
+	private int qty;
 	
 	
 	public String getCode() {
@@ -43,11 +43,11 @@ public class Product {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
-	public int getQtyAvailable() {
-		return qtyAvailable;
+	public int getQty() {
+		return qty;
 	}
-	public void setQtyAvailable(int qtyAvailable) {
-		this.qtyAvailable = qtyAvailable;
+	public void setQty(int qty) {
+		this.qty = qty;
 	}
 	
 	
