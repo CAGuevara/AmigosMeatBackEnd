@@ -11,5 +11,4 @@ import com.carmenguevara.backend.models.Product;
 public interface ProductRepository extends JpaRepository <Product,String> {
 
 	List<Product> findByDescription(String description);
-	
 }

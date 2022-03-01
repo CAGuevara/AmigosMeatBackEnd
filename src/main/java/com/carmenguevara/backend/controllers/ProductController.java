@@ -31,15 +31,22 @@ public class ProductController {
 	@GetMapping("product/{code}")
 		public ResponseEntity<Product> getProductByCode(@PathVariable String code){
 			Product product = productRepo.findById(code)
-									.orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
+							.orElseThrow(()-> new ResourceNotFoundException("Product Not Found"));
 					return ResponseEntity.ok(product);
-			
 	}
 	
+//	Find product by Description - the string has to be exactly the same with lower/upper case
 	
+	@GetMapping("allproducts/{description}")
+	public List<Product> getProductsByDescription(@PathVariable String description){
+		List<Product> products = productRepo.findByDescription(description);
+		if(products.isEmpty()) {
+			System.out.println(new ResourceNotFoundException("couldn't find the product"));
+		}
+		return productRepo.findByDescription(description);
+	}
 	
-	
-	@PostMapping("addProduct")
+	@PostMapping("addproduct")
 	public Product newProduct (@RequestBody Product product) {
 		return productRepo.save(product);
 	}
