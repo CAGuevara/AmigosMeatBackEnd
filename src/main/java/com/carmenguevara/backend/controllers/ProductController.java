@@ -1,5 +1,6 @@
 package com.carmenguevara.backend.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +43,32 @@ public class ProductController {
 	
 	@GetMapping("allproducts/{description}")
 	public List<Product> getProductsByDescription(@PathVariable String description){
-		List<Product> products = productRepo.findByDescription(description);
+		
+		
+		List<Product> products = productRepo.findAll();
+		List<Product> foundProducts = new ArrayList<>();
+		
+		for (Product product : products) {
+			if(product.getDescription().contains(description)) {
+				foundProducts.add(product);
+				
+			}
+		} 
+//		List<Product> products = productRepo.findByDescription(description);
 
-		if(products.isEmpty()) {
-			System.out.println(new ResourceNotFoundException("couldn't find the product"));
-		}
-		return productRepo.findByDescription(description);
+//		if(products.isEmpty()) {
+//			System.out.println(new ResourceNotFoundException("couldn't find the product"));
+//		}
+//		
+		return foundProducts;
 	}
 //	Add Products to the database 
 	@PostMapping("addproduct")
 	public Product newProduct (@RequestBody Product product) {
 		return productRepo.save(product);
 	}
-
+	
+//  Delete Product to the database 
 	@DeleteMapping("product/{code}")
 	public ResponseEntity<String> deleteProduct(@PathVariable String code) {
 		productRepo.findById(code)
@@ -64,6 +78,7 @@ public class ProductController {
 		return new ResponseEntity<>(message,HttpStatus.OK);
 	}
 	
+// Updating Products 
 	@PutMapping("product/{code}")
 	public ResponseEntity<Product> updateProduct(@PathVariable String code, @RequestBody Product newProductInfo){
 		Product foundProduct = productRepo.findById(code)
