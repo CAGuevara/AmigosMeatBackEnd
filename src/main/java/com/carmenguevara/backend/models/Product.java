@@ -13,7 +13,6 @@ public class Product {
 	
 	@Id
 	@Column
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String code;
 	@Column
 	private String description;
@@ -46,12 +45,8 @@ public class Product {
 	public int getQty() {
 		return qty;
 	}
-	public void setQty(int qty) {
-		this.qty = qty;
+	public void setQty(int d) {
+		this.qty = d;
 	}
-	
-	
-	
-	
-	
+
 }
