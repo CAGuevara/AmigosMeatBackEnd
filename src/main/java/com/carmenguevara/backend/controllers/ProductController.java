@@ -26,12 +26,14 @@ public class ProductController {
 	
 	@Autowired
 	private ProductRepository productRepo;
-	
+
+//	Display all the products
 	@GetMapping("/allproducts")
 	public List<Product> getAllProduct(){
 		return productRepo.findAll();
 	}
-		
+	
+//	Display products by code
 	@GetMapping("product/{code}")
 		public ResponseEntity<Product> getProductByCode(@PathVariable String code){
 			Product product = productRepo.findById(code)
@@ -39,29 +41,22 @@ public class ProductController {
 					return ResponseEntity.ok(product);
 	}
 	
-//	Find product by Description - the string has to be exactly the same with lower/upper case
+//	Find product by any word in the Description
 	
 	@GetMapping("allproducts/{description}")
 	public List<Product> getProductsByDescription(@PathVariable String description){
-		
-		
 		List<Product> products = productRepo.findAll();
 		List<Product> foundProducts = new ArrayList<>();
 		
 		for (Product product : products) {
 			if(product.getDescription().contains(description)) {
 				foundProducts.add(product);
-				
 			}
 		} 
-//		List<Product> products = productRepo.findByDescription(description);
-
-//		if(products.isEmpty()) {
-//			System.out.println(new ResourceNotFoundException("couldn't find the product"));
-//		}
-//		
 		return foundProducts;
 	}
+	
+	
 //	Add Products to the database 
 	@PostMapping("addproduct")
 	public Product newProduct (@RequestBody Product product) {
@@ -83,8 +78,6 @@ public class ProductController {
 	public ResponseEntity<Product> updateProduct(@PathVariable String code, @RequestBody Product newProductInfo){
 		Product foundProduct = productRepo.findById(code)
 				.orElseThrow(()-> new ResourceNotFoundException("Product Not Found."));
-		
-		
 		foundProduct.setCode(newProductInfo.getCode());
 		foundProduct.setDescription(newProductInfo.getDescription());
 		foundProduct.setCost(newProductInfo.getCost());
@@ -92,6 +85,4 @@ public class ProductController {
 		Product updatedProduct = productRepo.save(foundProduct); 
 		return ResponseEntity.ok(updatedProduct);
 	}
-		
-	
 }
