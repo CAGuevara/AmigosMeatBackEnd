@@ -2,19 +2,23 @@ package com.carmenguevara.backend.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.carmenguevara.backend.exceptions.ResourceNotFoundException;
 import com.carmenguevara.backend.models.Users;
 import com.carmenguevara.backend.repositories.UsersRepository;
-import com.carmenguevara.backend.exceptions.ResourceNotFoundException;
 
 @RestController
 @CrossOrigin
@@ -39,7 +43,7 @@ public class UsersController {
 		
 		
 //		find all the stores based on name 
-		@GetMapping("/allUsers/{storename}")
+		@GetMapping("/allusers/{storename}")
 		public List<Users> getUsersByStorename(@PathVariable String storename) {
 
 			List<Users> tempUsers = usersRepo.findAll();
@@ -52,5 +56,36 @@ public class UsersController {
 			}
 			return foundUsers;
 		}
-
+		
+// Add user
+	@PostMapping("/adduser")
+	public Users newUser(@RequestBody Users user) {
+		return usersRepo.save(user);
+	}
+	
+//	Delete Users 
+	@DeleteMapping("users/{phone}")
+	public ResponseEntity<String> deleteUser(@PathVariable String phone){
+		usersRepo.findById(phone)
+			.orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
+		String message = "User has been Deleted.";
+		usersRepo.deleteById(phone);
+		return new ResponseEntity<>(message,HttpStatus.OK);
+	}
+	
+// Updating User
+	@PutMapping("user/{phone}")
+	public ResponseEntity<Users> updateUser(@PathVariable String phone, @RequestBody Users newUserInfo){
+		Users foundUser = usersRepo.findById(phone)
+				.orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
+		foundUser.setPhone(newUserInfo.getPhone());
+		foundUser.setFirstname(newUserInfo.getFirstname());
+		foundUser.setLastname(newUserInfo.getLastname());
+		foundUser.setEmail(newUserInfo.getEmail());
+		foundUser.setPwd(newUserInfo.getPwd());
+		foundUser.setStorename(newUserInfo.getStorename());
+		
+		Users updatedUser = usersRepo.save(foundUser);
+		return ResponseEntity.ok(updatedUser);	
+	}
 }

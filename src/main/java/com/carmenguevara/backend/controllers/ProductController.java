@@ -82,6 +82,7 @@ public class ProductController {
 		foundProduct.setDescription(newProductInfo.getDescription());
 		foundProduct.setCost(newProductInfo.getCost());
 		foundProduct.setQty(newProductInfo.getQty());
+		
 		Product updatedProduct = productRepo.save(foundProduct); 
 		return ResponseEntity.ok(updatedProduct);
 	}
