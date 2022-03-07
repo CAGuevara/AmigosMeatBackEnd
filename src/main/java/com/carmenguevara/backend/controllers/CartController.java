@@ -33,7 +33,7 @@ public class CartController {
 		return cartRepo.findAll();
 	}
 
-//	Display products in cart
+//	Display products in cart by Product Id
 
 	@GetMapping("cart/{productid}")
 	public List<Cart> getItemByProductid(@PathVariable String productid) {

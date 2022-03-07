@@ -22,6 +22,17 @@ public class Cart {
 	@Column
 	private int qty;
 	
+//	join fields
+	
+//	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+//	@JoinColumn(name="productid")
+//	private Product product;
+//	
+//	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+//	@JoinColumn(name="userphone")
+//	private Users user;
+	
+	
 // Getter and Setters 
 
 	public int getCartid() {
