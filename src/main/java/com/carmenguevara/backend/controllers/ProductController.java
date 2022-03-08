@@ -82,7 +82,7 @@ public class ProductController {
 		foundProduct.setDescription(newProductInfo.getDescription());
 		foundProduct.setCost(newProductInfo.getCost());
 		foundProduct.setQty(newProductInfo.getQty());
-		
+		foundProduct.setImage(newProductInfo.getImage());
 		Product updatedProduct = productRepo.save(foundProduct); 
 		return ResponseEntity.ok(updatedProduct);
 	}

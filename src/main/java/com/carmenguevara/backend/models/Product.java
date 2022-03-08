@@ -20,6 +20,8 @@ public class Product {
 	private double cost;
 	@Column
 	private int qty;
+	@Column
+	private String image;
 	
 	
 	public String getCode() {
@@ -48,5 +50,13 @@ public class Product {
 	public void setQty(int d) {
 		this.qty = d;
 	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 
+	
+	
 }
